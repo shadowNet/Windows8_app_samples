@@ -1,0 +1,14 @@
+[  
+  {
+     'Name': 'Einstein',
+	 'Quote': 'My Quote',
+	 'BackgroundPath': 'Einstein_Background.jpg',
+	 'ForegroundPath': 'Einstein_Foreground.png'
+  },
+  {
+     'Name': 'Bill Gates',
+	 'Quote': 'My Quote 2',
+	 'BackgroundPath': 'BillGates_Background.jpg',
+	 'ForegroundPath': 'BillGates_Foreground.jpg'
+  }
+]

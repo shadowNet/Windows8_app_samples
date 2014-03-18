@@ -19,12 +19,12 @@ namespace quotesTemplate
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage_OLD : Page
     {
         //This is the class member which stores all the quotes.  Populated when the program reads the textfile
         public string[] lines; 
         //This function loads the main app page
-        public MainPage()
+        public MainPage_OLD()
         {
             getfile(); 
             this.InitializeComponent();

@@ -100,12 +100,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\CategoriesDataSource.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -118,13 +116,17 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="DataModel\Images\BillGates_Background.jpg" />
+    <Content Include="DataModel\Images\BillGates_Foreground.jpg" />
+    <Content Include="DataModel\Quotes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
     <None Include="quotesTemplate_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Arrowhead-Left.png" />
-    <Content Include="Assets\Arrowhead-Right.png" />
-    <Content Include="Assets\einstein.jpg" />
-    <Content Include="Assets\einstein_2.png" />
+    <Content Include="DataModel\Images\Einstein_Background.jpg" />
+    <Content Include="DataModel\Images\Einstein_Foreground.png" />
     <Content Include="Assets\idea_light_bulb.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\pickup.txt" />
@@ -149,6 +151,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\netcore45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
