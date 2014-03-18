@@ -109,6 +109,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MainPage_OLD.xaml.cs">
+      <DependentUpon>MainPage_OLD.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -118,6 +121,10 @@
     <None Include="quotesTemplate_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Arrowhead-Left.png" />
+    <Content Include="Assets\Arrowhead-Right.png" />
+    <Content Include="Assets\einstein.jpg" />
+    <Content Include="Assets\einstein_2.png" />
     <Content Include="Assets\idea_light_bulb.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\pickup.txt" />
@@ -130,11 +137,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="MainPage_OLD.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
