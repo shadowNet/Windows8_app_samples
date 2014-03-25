@@ -21,7 +21,7 @@
                 Click="PrevButton_Click" />
 
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Name="QuoteGrid">
             <Grid.Background>
                 <ImageBrush x:Name="BackgroundImage" 
                             ImageSource="ms-appx:///DataModel/Images/Einstein_Background.jpg" 
@@ -54,6 +54,9 @@
            
         </Grid>
 
+        <HyperlinkButton Grid.Column="2" Click="ShareButton_Click"
+                         VerticalAlignment="Top" HorizontalAlignment="Left" 
+                         Margin="10" Foreground="#2BCBC4">Share</HyperlinkButton>
         <Button Grid.Column="2"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
                 FontFamily="Segoe UI Symbol" Content="&#xE017;" FontSize="140" 
