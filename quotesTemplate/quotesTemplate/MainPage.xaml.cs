@@ -67,8 +67,8 @@ namespace quotesTemplate
             DataRequestedEventArgs e)
         {
             DataRequest request = e.Request;
-            request.Data.Properties.Description = "Quote from QuotesTemplate";
-            request.Data.Properties.Title = quotes.CurrentQuote.Quote + "\n\n~" + quotes.CurrentQuote.Name + "\n";
+            request.Data.Properties.Title = "Quote from QuotesTemplate";
+            request.Data.SetText(quotes.CurrentQuote.Quote + "\r\n\r\n~" + quotes.CurrentQuote.Name + "\n");
 
             // Because we are making async calls in the DataRequested event handler,
             //  we need to get the deferral first.
