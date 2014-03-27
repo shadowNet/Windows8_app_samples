@@ -42,7 +42,9 @@ namespace quotesTemplate81
         /// <param name="e">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            //Loads the quotes
             await QuotesDataSource.LoadQuotes();
+
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {

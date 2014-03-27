@@ -1,36 +1,21 @@
 ﻿using quotesTemplate81.DataModel;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
-using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace quotesTemplate81
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
+        //Holds all the quotes
         QuotesObject quotes;
 
         public MainPage()
@@ -42,20 +27,27 @@ namespace quotesTemplate81
         {
             base.OnNavigatedTo(e);
 
+            //Loads the quotes
             quotes = new QuotesDataSource().Quotes;
+            //Binds the quotes to the UI
             BindCurrentQoute();
+            //Shares the quote
             RegisterForShare();
         }
 
+        //Binds the current quote
         private void BindCurrentQoute()
         {
+            //Gets the current quote
             QuoteObject quote = quotes.CurrentQuote;
 
+            //Binds the images and text
             BackgroundImage.ImageSource = new BitmapImage(quote.BackgroundUri);
             ForegroundImage.ImageSource = new BitmapImage(quote.ForegroundUri);
             QuotesTextBlock.Text = quote.Quote;
         }
 
+        //Allows for sharing
         private void RegisterForShare()
         {
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
@@ -63,11 +55,14 @@ namespace quotesTemplate81
                 DataRequestedEventArgs>(this.ShareImageHandler);
         }
 
+        //Builds the data to be shared
         private async void ShareImageHandler(DataTransferManager sender,
             DataRequestedEventArgs e)
         {
             DataRequest request = e.Request;
+            //Sets the title of the share request
             request.Data.Properties.Title = "Quote from QuotesTemplate";
+            //Sets the text of whats actually being shared
             request.Data.SetText(quotes.CurrentQuote.Quote + "\n\n~" + quotes.CurrentQuote.Name + "\n");
 
             // Because we are making async calls in the DataRequested event handler,
@@ -77,21 +72,25 @@ namespace quotesTemplate81
             // Make sure we always call Complete on the deferral.
             try
             {
+                //Renders the QuoteGrid as a bitmap
                 var bmp = new RenderTargetBitmap();
                 await bmp.RenderAsync(QuoteGrid);
 
+                //Gets the pixels
                 var pixelBuffer = await bmp.GetPixelsAsync();
 
                 var reader = DataReader.FromBuffer(pixelBuffer);
                 var bytes = new byte[pixelBuffer.Length];
                 reader.ReadBytes(bytes);
 
+                //Creates the image
                 var randomAccessStream = new InMemoryRandomAccessStream();
                 var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, randomAccessStream);
                 encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bmp.PixelWidth, (uint)bmp.PixelHeight, 96, 96, bytes);
                 await encoder.FlushAsync();
                 await randomAccessStream.FlushAsync();
                          
+                //Sets the image of the share request
                 request.Data.SetBitmap(RandomAccessStreamReference.CreateFromStream(randomAccessStream));
             }
             finally
@@ -100,46 +99,30 @@ namespace quotesTemplate81
             }
         }
 
-        async Task SaveGridToFile(Grid grid, StorageFile file)
-        {
-            var renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(grid, (int)grid.Width, (int)grid.Height);
-            var pixels = await renderTargetBitmap.GetPixelsAsync();
-
-            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                var encoder = await
-                    BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream);
-                byte[] bytes = pixels.ToArray();
-                encoder.SetPixelData(BitmapPixelFormat.Bgra8,
-                                     BitmapAlphaMode.Ignore,
-                                     (uint)grid.Width, (uint)grid.Height,
-                                     96, 96, bytes);
-
-                await encoder.FlushAsync();
-            }
-        }
-
+        //Goes to the previous quote
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
             quotes.PrevQuote();
             BindCurrentQoute();
         }
 
+        //Goes to the next quote
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             quotes.NextQuote();
             BindCurrentQoute();
         }
 
+        //Reads keyboard input
         private void Grid_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Left)
+            if (e.Key == VirtualKey.Left || e.Key == VirtualKey.A)
                 PrevButton_Click(this, new RoutedEventArgs());
-            else if (e.Key == VirtualKey.Right)
+            else if (e.Key == VirtualKey.Right || e.Key == VirtualKey.D)
                 NextButton_Click(this, new RoutedEventArgs());
         }
 
+        //Reads swipe input
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             if (e.Velocities.Linear.X > 0)
@@ -148,6 +131,7 @@ namespace quotesTemplate81
                 NextButton_Click(this, new RoutedEventArgs());
         }
 
+        //Shares the content
         private void ShareButton_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager.ShowShareUI();

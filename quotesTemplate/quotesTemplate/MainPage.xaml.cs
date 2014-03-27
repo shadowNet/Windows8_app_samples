@@ -1,36 +1,23 @@
 ﻿using quotesTemplate.DataModel;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace quotesTemplate
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainPage : Page
     {
+        //Holds all the quotes
         QuotesObject quotes;
 
         public MainPage()
@@ -42,27 +29,35 @@ namespace quotesTemplate
         {
             base.OnNavigatedTo(e);
 
+            //Loads the quotes
             quotes = new QuotesDataSource().Quotes;
+            //Binds the quotes to the UI
             BindCurrentQoute();
+            //Shares the quote
             RegisterForShare();
         }
 
+        //Binds the current quote
         private void BindCurrentQoute()
         {
+            //Gets the current quote
             QuoteObject quote = quotes.CurrentQuote;
 
+            //Binds the images and text
             BackgroundImage.ImageSource = new BitmapImage(quote.BackgroundUri);
             ForegroundImage.ImageSource = new BitmapImage(quote.ForegroundUri);
             QuotesTextBlock.Text = quote.Quote;
         }
 
+        //Allows for sharing
         private void RegisterForShare()
         {
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager,
                 DataRequestedEventArgs>(this.ShareImageHandler);
         }
-        
+
+        //Builds the data to be shared
         private async void ShareImageHandler(DataTransferManager sender,
             DataRequestedEventArgs e)
         {
@@ -90,27 +85,30 @@ namespace quotesTemplate
                 deferral.Complete();
             }
         }
-
+        //Goes to the previous quote
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
             quotes.PrevQuote();
             BindCurrentQoute();
         }
 
+        //Goes to the next quote
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             quotes.NextQuote();
             BindCurrentQoute();
         }
 
+        //Reads keyboard input
         private void Grid_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Left)
+            if (e.Key == VirtualKey.Left || e.Key == VirtualKey.A)
                 PrevButton_Click(this, new RoutedEventArgs());
-            else if (e.Key == VirtualKey.Right)
+            else if (e.Key == VirtualKey.Right || e.Key == VirtualKey.D)
                 NextButton_Click(this, new RoutedEventArgs());
         }
 
+        //Reads swipe input
         private void Grid_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             if (e.Velocities.Linear.X > 0)
@@ -119,6 +117,7 @@ namespace quotesTemplate
                 NextButton_Click(this, new RoutedEventArgs());
         }
 
+        //Shares the content
         private void ShareButton_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager.ShowShareUI();

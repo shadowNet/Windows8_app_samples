@@ -1,15 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
-using Windows.Foundation;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace quotesTemplate.DataModel
 {
@@ -42,7 +35,7 @@ namespace quotesTemplate.DataModel
     /// </summary>
     public class QuoteObject
     {
-        public string Name  { get; set; }
+        public string Name { get; set; }
         public string Quote { get; set; }
         public string BackgroundPath { get; set; }
         public string ForegroundPath { get; set; }
@@ -65,6 +58,7 @@ namespace quotesTemplate.DataModel
             get { return quotesDataSource.quotes; }
         }
 
+        //NOTE: called in App.xaml.cs in the OnLaunched event
         public static async Task LoadQuotes()
         {
             await quotesDataSource.LoadDataAsync();

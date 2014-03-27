@@ -7,7 +7,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid KeyUp="Grid_KeyUp" ManipulationMode="TranslateX" ManipulationCompleted="Grid_ManipulationCompleted">
+    <!--
+    Things needed
+    
+    Button
+        Click="PrevButton_Click"
+    Button
+        Click="NextButton_Click"
+    
+    Grid
+        Name="QuoteGrid"
+        ImageBrush
+            x:Name="BackgroundImage" 
+        TextBlock
+            Name="QuotesTextBlock"
+        ImageBrush
+            x:Name="ForegroundImage"
+    -->
+    
+    <Grid Background="{StaticResource BackgroundBrush}"
+          KeyUp="Grid_KeyUp" 
+          ManipulationMode="TranslateX" 
+          ManipulationCompleted="Grid_ManipulationCompleted">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="2*"/>
@@ -17,7 +38,7 @@
         <Button Grid.Column="0"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
                 FontFamily="Segoe UI Symbol" Content="&#xE016;" FontSize="140" 
-                Foreground="#2BCBC4" BorderBrush="{x:Null}"
+                Foreground="{StaticResource AccentBrush}" BorderBrush="{x:Null}"
                 Click="PrevButton_Click" />
 
 
@@ -34,7 +55,7 @@
             </Grid.RowDefinitions>
             
             <Viewbox Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Name="QuotesTextBlock" 
+                <TextBlock Name="QuotesTextBlock"
                            VerticalAlignment="Bottom" TextAlignment="Center"
                            TextWrapping="Wrap" Width="900" FontSize="100"
                            FontWeight="Light" Text="Quote Goes here!">
@@ -44,7 +65,7 @@
             <Ellipse Grid.Row="2" 
                          Width="180" 
                          Height="180"
-                         Stroke="#2BCBC4"
+                         Stroke="{StaticResource AccentBrush}"
                          StrokeThickness="11">
                 <Ellipse.Fill>
                     <ImageBrush x:Name="ForegroundImage" 
@@ -56,11 +77,11 @@
 
         <HyperlinkButton Grid.Column="2" Click="ShareButton_Click"
                          VerticalAlignment="Top" HorizontalAlignment="Left" 
-                         Margin="10" Foreground="#2BCBC4">Share</HyperlinkButton>
+                         Margin="10" Foreground="{StaticResource AccentBrush}">Share</HyperlinkButton>
         <Button Grid.Column="2"
                 HorizontalAlignment="Center" VerticalAlignment="Center" 
                 FontFamily="Segoe UI Symbol" Content="&#xE017;" FontSize="140" 
-                Foreground="#2BCBC4" BorderBrush="{x:Null}"
+                Foreground="{StaticResource AccentBrush}" BorderBrush="{x:Null}"
                 Click="NextButton_Click" />
 
     </Grid>
